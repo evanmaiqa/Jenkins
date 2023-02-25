@@ -12,12 +12,13 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class MainTest {
     private static final String osName = System.getProperty("os.name").toLowerCase();
-    private static final List<String> browsersArr = Arrays.asList("chrome", "firefox", "msedge");
+    private static List<String> browsersList = new ArrayList<>();
     private static WebDriver driver;
 
     private static String getBrowserName() {
@@ -25,6 +26,14 @@ public class MainTest {
         return caps.getBrowserName() + ";" + caps.getVersion() + ";" + caps.getPlatform().toString().toLowerCase();
     }
 
+    private static void browserList() {
+        browsersList.add("chrome");
+        browsersList.add("firefox");
+        browsersList.add("msedge");
+        if (osName.contains("mac")) {
+            browsersList.add("safari");
+        }
+    }
     private static void setReport() throws IOException {
         FileWriter fileWriter = new FileWriter("report.csv", true);
         fileWriter.write(getBrowserName() + ";" + driver.manage().window().getSize() + "\n");
@@ -39,10 +48,9 @@ public class MainTest {
             fileWriter.close();
         }
 
-        if (osName.contains("mac os x")) {
-            browsersArr.add("safari");
-        }
-        for (String browser : browsersArr) {
+        browserList();
+
+        for (String browser : browsersList) {
             switch (browser) {
                 case "chrome":
                     WebDriverManager.chromedriver().setup();
