@@ -26,14 +26,6 @@ public class MainTest {
         return caps.getBrowserName() + ";" + caps.getVersion() + ";" + caps.getPlatform().toString().toLowerCase();
     }
 
-    private static void browserList() {
-        browsersList.add("chrome");
-        browsersList.add("firefox");
-        browsersList.add("msedge");
-        if (osName.contains("mac")) {
-            browsersList.add("safari");
-        }
-    }
     private static void setReport() throws IOException {
         FileWriter fileWriter = new FileWriter("report.csv", true);
         fileWriter.write(getBrowserName() + ";" + driver.manage().window().getSize() + "\n");
@@ -48,7 +40,12 @@ public class MainTest {
             fileWriter.close();
         }
 
-        browserList();
+        browsersList.add("chrome");
+        browsersList.add("firefox");
+        browsersList.add("msedge");
+        if (osName.contains("mac")) {
+            browsersList.add("safari");
+        }
 
         for (String browser : browsersList) {
             switch (browser) {
